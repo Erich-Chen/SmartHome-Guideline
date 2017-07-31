@@ -255,6 +255,8 @@ sudo ps -ef | grep homebridge@smarthome
 
 ## Others
 ```
+# Set up password
+
 # FRP- Fast Reverse Proxy
 
 # SSL
@@ -282,3 +284,5 @@ sudo npm update -g homebridge
 sudo pip3 install --upgrade appdaemon
 
 ```
+# Notepad++ and NPP FTP plugin   
+I use Notepad++ and a plugin "NPP FTP" to access and edit configuration files. I do not feel like semba a secure enough.    
