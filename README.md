@@ -28,8 +28,10 @@ sudo sed -i "s/.*/smarthome/g" /etc/hostname
 sudo sed -i "s/127.0.1.1.*/127.0.1.1\tsmarthome/g" /etc/hosts
 # Reboot to take effect
 sudo reboot
+```
 
-# Install homeassistant (easy way, NOT virtualevn)
+## Install homeassistant (easy way, NOT virtualevn)
+```
 sudo apt install python3-pip
 sudo pip3 install --upgrade pip
 sudo pip3 install homeassistant
@@ -59,14 +61,17 @@ EOL
 sudo systemctl --system daemon-reload
 sudo systemctl enable home-assistant@smarthome
 # sudo systemctl start|stop|restart home-assistant@smarthomes
+```
 
-
-# Install MQTT support
+## Install MQTT support
+```
 sudo apt install -y mosquitto mosquitto-clients
 sudo pip3 install paho-mqtt    # was: python-mosquitto
 sudo systemctl start mosquitto
+```
 
-# Install homebridge
+## Install homebridge
+```
 sudo apt install -y git make g++ curl
 sudo apt install -y python
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
@@ -144,27 +149,10 @@ EOL
 
 sudo systemctl --system daemon-reload
 sudo systemctl enable homebridge@smarthome
+```
 
-# Reboot
-sudo reboot
-# Get back to system, double check autostarts
-sudo ps -ef | grep homeassistant@smarthome
-sudo ps -ef | grep homebridge@smarthome
-
-# Upgrade
-## homeassistant upgrade
-sudo pip3 install --upgrade homeassistant
-
-## Node/npm Update
-sudo npm cache clean -f
-sudo npm install -g n
-sudo n latest
-sudo npm install -g npm
-
-## Homebridge Update
-sudo npm update -g homebridge
-
-# AppDaemon (Dashboard)
+## AppDaemon (Dashboard)
+```
 sudo pip3 install appdaemon
 mdir ~/conf
 touch ~/conf/appdaemon.yaml
@@ -253,7 +241,40 @@ EOL
 
 sudo systemctl --system daemon-reload
 sudo systemctl enable appdaemon@smarthome
+```
 
+## Reboot to Test Autostart
+```
+sudo reboot
+# Get back to system, double check autostarts
+sudo ps -ef | grep homeassistant@smarthome
+sudo ps -ef | grep homebridge@smarthome
+```
+
+## Upgrade
+```
+# System Update
+sudo apt update && sudo apt upgrade -yy
+
+# homeassistant upgrade
+sudo pip3 install --upgrade homeassistant
+
+# Node/npm Update
+sudo npm cache clean -f
+sudo npm install -g n
+sudo n latest
+sudo npm install -g npm
+
+# Homebridge Update
+sudo npm update -g homebridge
+
+# AppDaemon Update
+sudo pip3 install --upgrade appdaemon
+
+```
+
+## Other
+```
 # FRP- Fast Reverse Proxy
 
 # SSL
