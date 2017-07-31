@@ -16,9 +16,10 @@ sudo apt install -y openssh-server vim curl
 sudo adduser smarthome
 sudo usermod -aG sudo smarthome
 exit
+```
+###NOTE: You will Exit and login again as user 'smarthome'  
 
-# Exit and login as smarthome again
-
+```
 # Change Timezone
 echo "Asia/Shanghai" | sudo tee /etc/timezone
 sudo dpkg-reconfigure --frontend noninteractive tzdata
