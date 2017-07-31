@@ -251,6 +251,14 @@ sudo ps -ef | grep homeassistant@smarthome
 sudo ps -ef | grep homebridge@smarthome
 ```
 
+## Others
+```
+# FRP- Fast Reverse Proxy
+
+# SSL
+
+```
+
 ## Upgrade
 ```
 # System Update
@@ -270,13 +278,5 @@ sudo npm update -g homebridge
 
 # AppDaemon Update
 sudo pip3 install --upgrade appdaemon
-
-```
-
-## Other
-```
-# FRP- Fast Reverse Proxy
-
-# SSL
 
 ```
