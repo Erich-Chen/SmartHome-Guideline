@@ -224,7 +224,7 @@ EOL
 appdaemon -c ~/conf
 
 
-# Autostart homebridge Using Systemd
+# Autostart AppDaemon Using Systemd
 
 cat << EOL | sudo tee /etc/systemd/system/appdaemon@smarthome.service
 [Unit]
