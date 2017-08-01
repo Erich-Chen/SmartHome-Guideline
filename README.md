@@ -7,7 +7,7 @@ Set up a smart home system including homeassistant and homebridge,  based on Ubu
 ** Network Adaptor: Bridged  
 ** hostname: smarthome  
 ** username: smarthome  
-* 中国国内用户最好有个速度不错的全局VPN，我没有对中国的网络环境做个别配置。
+* 中国国内用户最好自备稳定的全局VPN，我没有对中国的网络环境做个别优化。
 
 ```
 sudo apt update && sudo apt upgrade -y
