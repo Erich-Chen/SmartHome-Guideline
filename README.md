@@ -254,8 +254,21 @@ sudo ps -ef | grep homebridge@smarthome
 ```
 
 ## Others
+### Set up api password for homeassistant
 ```
-# Set up password  
+# there are 4 files to edit to set up api_password for homeassistant. 
+## 1. touch /home/smarthome/.homeassistant/secrets.yaml   # secrects is plural
+api_password: SOME_PASSWORD
+## 2. /home/smarthome/.homeassistant/configration.yaml
+http:
+  api_password: !secret api_password
+## 3. /home/smarthome/.homebridge/config.json
+      "password": "YOUR_HOMEASSISTANT_API_PASSWORD",
+      "logging": true,
+## 4. /home/smarthome/conf/appdaemon.yaml
+  HASS:
+    ha_key: "Kind4055"
+```
 
 # FRP- Fast Reverse Proxy  
 https://github.com/fatedier/frp/blob/master/README_zh.md  
