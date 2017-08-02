@@ -156,7 +156,7 @@ sudo systemctl enable homebridge@smarthome
 ## AppDaemon (Dashboard)
 ```
 sudo pip3 install appdaemon
-mdir ~/conf
+mkdir ~/conf
 touch ~/conf/appdaemon.yaml
 
 cat << EOL | sudo tee /home/smarthome/conf/appdaemon.yaml
@@ -255,11 +255,12 @@ sudo ps -ef | grep homebridge@smarthome
 
 ## Others
 ```
-# Set up password
+# Set up password  
 
-# FRP- Fast Reverse Proxy
+# FRP- Fast Reverse Proxy  
+https://github.com/fatedier/frp/blob/master/README_zh.md  
 
-# SSL
+# SSL  
 
 ```
 
