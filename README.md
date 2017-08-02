@@ -270,12 +270,11 @@ http:
     ha_key: "Kind4055"
 ```
 
-# FRP- Fast Reverse Proxy  
+### FRP- Fast Reverse Proxy  
 https://github.com/fatedier/frp/blob/master/README_zh.md  
 
-# SSL  
+#### SSL  
 
-```
 
 ## Upgrade
 ```
@@ -297,6 +296,7 @@ sudo npm update -g homebridge
 # AppDaemon Update
 sudo pip3 install --upgrade appdaemon
 
-```
+```  
+
 # Notepad++ and NPP FTP plugin   
 I use Notepad++ and a plugin "NPP FTP" to access and edit configuration files. I do not feel like semba a secure enough.    
