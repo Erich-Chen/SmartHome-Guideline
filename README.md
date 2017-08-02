@@ -32,7 +32,7 @@ sudo sed -i "s/127.0.1.1.*/127.0.1.1\tsmarthome/g" /etc/hosts
 sudo reboot
 ```
 
-## Install homeassistant (easy way, NOT virtualevn)
+## Install homeassistant (easy way, NOT virtualenv)
 ```
 sudo apt install python3-pip
 sudo pip3 install --upgrade pip
