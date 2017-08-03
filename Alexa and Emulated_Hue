@@ -1,0 +1,12 @@
+Easy way.   
+
+```
+# Example configuration.yaml entry
+emulated_hue:
+  host_ip: IP_Homeassistant
+  listen_port: 8300
+  type: alexa
+```
+
+http://alexa.amazon.com/spa/index.html  
+Smart Home -> discover devices
