@@ -1,0 +1,8 @@
+ref. https://home-assistant.io/components/device_tracker.xiaomi/   
+```
+# Example configuration.yaml entry
+device_tracker:
+  - platform: xiaomi
+    host: YOUR_ROUTER_IP
+    password: YOUR_ADMIN_PASSWORD
+```
