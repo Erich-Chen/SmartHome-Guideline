@@ -7,7 +7,7 @@ Set up a smart home system including homeassistant and homebridge,  based on Ubu
 ** Network Adaptor: Bridged  
 ** hostname: smarthome  
 ** username: smarthome  
-* 中国国内用户最好自备稳定的全局VPN，我没有对中国的网络环境做个别优化。
+* 中国国内用户最好自备稳定的全局VPN，我没有对中国的网络环境做个别优化。  
 
 ```
 sudo apt update && sudo apt upgrade -y
@@ -98,11 +98,12 @@ sudo node-gyp BUILDTYPE=Release rebuild
 sudo npm install -g homebridge-homeassistant
 
 # Create a sample config.json for homebridge
+# username under bridge will be set as mac address of vm
 cat << EOL | sudo tee ~/.homebridge/config.json
 {
   "bridge": {
     "name": "Homebridge",
-    "username": "CC:22:3D:E3:CE:30",
+    "username": "$(echo $(cat /sys/class/net/e*/address) | awk '{print toupper($0)}')",
     "port": 51826,
     "pin": "031-45-154"
   },
