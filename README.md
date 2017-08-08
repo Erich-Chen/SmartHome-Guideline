@@ -299,5 +299,17 @@ sudo pip3 install --upgrade appdaemon
 
 ```  
 
+## Configuration Update
+```
+# To update homebridge config, first stop homebridge service
+sudo systemctl stop homebridge@smarthome.service
+vim ~/.homebridge/config.json
+# IMPORTANT: remove cached persist and accessories information, which will be rebuilt after service restart
+rm -rf ~/.homebridge/accessories/ ~/.homebridge/persist/
+# Start homebridge service again
+sudo systemctl start homebridge@smarthome.service
+# in HomeKit on iPhone, remove homebridge and add back. 
+```
+
 # Notepad++ and NPP FTP plugin   
 I use Notepad++ and a plugin "NPP FTP" to access and edit configuration files. I do not feel like semba a secure enough.    
