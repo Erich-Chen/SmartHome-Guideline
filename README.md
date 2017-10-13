@@ -95,6 +95,7 @@ cd /usr/lib/node_modules/hap-nodejs/node_modules/mdns
 sudo node-gyp BUILDTYPE=Release rebuild
 
 # Test Run HomeBridge
+cd ~
 homebridge
 
 # Install plugs:
