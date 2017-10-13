@@ -65,7 +65,7 @@ sudo systemctl enable home-assistant@smarthome
 # sudo systemctl start|stop|restart home-assistant@smarthomes
 ```
 
-~~## Install MQTT support~~
+## Install MQTT support
 ```
 sudo apt install -y mosquitto mosquitto-clients
 sudo pip3 install paho-mqtt    # was: python-mosquitto
@@ -93,6 +93,9 @@ cd /usr/lib/node_modules/hap-nodejs/node_modules/mdns
 # cd /usr/local/lib/node_modules/hap-nodejs/node_modules/mdns
 
 sudo node-gyp BUILDTYPE=Release rebuild
+
+# Test Run HomeBridge
+homebridge
 
 # Install plugs:
 sudo npm install -g homebridge-homeassistant
