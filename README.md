@@ -272,7 +272,7 @@ http:
       "logging": true,
 ## 4. /home/smarthome/conf/appdaemon.yaml
   HASS:
-    ha_key: "Kind4055"
+    ha_key: "yourPassword"
 ```
 
 ### FRP- Fast Reverse Proxy  
