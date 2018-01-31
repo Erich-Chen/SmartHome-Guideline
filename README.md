@@ -34,6 +34,7 @@ sudo reboot
 ```
 
 ## Install homeassistant (easy way, NOT virtualenv)
+* 虚拟机代价很低，专VM专用，就不必使用virtualenv来隔离生产环境了
 ```
 sudo apt install python3-pip
 sudo pip3 install --upgrade pip
