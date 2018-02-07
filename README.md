@@ -23,8 +23,7 @@ exit
 
 ```
 # Change Timezone
-echo "Asia/Shanghai" | sudo tee /etc/timezone
-sudo dpkg-reconfigure --frontend noninteractive tzdata
+sudo timedatectl set-timezone "Asia/Shanghai"
 
 # Change hostname
 sudo sed -i "s/.*/smarthome/g" /etc/hostname
@@ -36,26 +35,35 @@ sudo reboot
 ## Install homeassistant (easy way, NOT virtualenv)
 * 虚拟机代价很低，专VM专用，就不必使用virtualenv来隔离生产环境了
 ```
-sudo apt install python3-pip
+sudo apt install -y python3 python3-pip python3-venv
 sudo pip3 install --upgrade pip
 sudo pip3 install homeassistant
 
+## if you prefer virtualenv:
+# python3 -m venv homeassistant
+# cd homeassistant
+# source bin/activate
+# pip install --upgrade pip
+# python3 -m pip install homeassistant
+
 # Test Run
 hass --version
-# echo You will access via "http://$(echo $(hostname -I))::8123" on another computer with GUI under the same LAN. 
-# echo Press Ctrl+C, maybe two or three times, to terminal the task and get back for further confirguration. 
+echo You will access via "http://$(echo $(hostname -I))::8123" on another computer with GUI under the same LAN. 
+echo Press Ctrl+C, maybe two or three times, to terminal the task and get back for further confirguration. 
 hass
 
 # Autostart home-assistant Using Systemd
 cat << EOL | sudo tee /etc/systemd/system/home-assistant@smarthome.service
 [Unit]
 Description=Home Assistant
-After=network.target
+After=network-online.target
 
 [Service]
 Type=simple
 User=%i
 ExecStart=$(which hass)
+## for virtualenv:
+# ExecStart=$(which hass) -c "/home/smarthome/.homeassistant"
 
 [Install]
 WantedBy=multi-user.target
@@ -118,7 +126,7 @@ cat << EOL | sudo tee ~/.homebridge/config.json
     {
       "platform": "HomeAssistant",
       "name": "HomeAssistant",
-      "host": "http://$(echo $(hostname -I)):8123",
+      "host": "http://127.0.0.1:8123",
       "password": "",
       "supported_types": ["fan", "garage_door", "input_boolean", "light", "lock", "media_player", "rollershutter", "scene", "switch"],
       "logging": false,
@@ -174,11 +182,11 @@ AppDaemon:
   cert_verify: False
   
 HASS:
-  ha_url: http://$(echo $(hostname -I)):8123
+  ha_url: http://127.0.0.1:8123
   ha_key: 
 
 HADashboard:
-  dash_url: http://$(echo $(hostname -I)):5050
+  dash_url: http://127.0.0.1:5050
   dash_force_compile: 1
 
 # Apps
