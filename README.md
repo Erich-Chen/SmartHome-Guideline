@@ -322,7 +322,27 @@ nohup frpc -c frpc.ini &
 ### SSL  
 
 ### Replace Database 
-http://cxlwill.cn/Home-Assistant/HomeAssistant-PostgreSQL/ 
+ref. http://cxlwill.cn/Home-Assistant/HomeAssistant-PostgreSQL/  
+```
+echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" | sudo tee  -a /etc/apt/sources.list
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc |   sudo apt-key add -
+
+sudo apt update
+sudo apt install -y postgresql-10 postgresql-server-dev-10
+psql --version
+pg_config --version
+sudo -u postgres createuser smarthome
+sudo -u postgres createdb -O smarthome homeassistant
+
+cd homeassistant/
+source bin/activate
+pip3 install psycopg2
+
+vim ~/.homeassistant/configuration.yaml
+## add below content
+# recorder:
+#   db_url: postgres://@/homeassistant
+```
 
 ## configuration.yaml 
 I forked cxlwill's HA-config: https://github.com/cxlwill/HA_config  
