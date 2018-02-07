@@ -278,9 +278,47 @@ http:
 ```
 
 ### FRP- Fast Reverse Proxy  
-https://github.com/fatedier/frp/blob/master/README_zh.md  
+https://github.com/fatedier/frp/blob/master/README_zh.md 
+* Server 
+```
+# frps.ini
+[common]
+bind_port = 7000
+vhost_http_port = 8123
 
-#### SSL  
+# run
+nohup frps -c frps.ini &
+```
+* Client
+```
+# frpc.ini
+[common]
+server_addr = xx.xx.xx.xx  # IP of FRPS server
+server_port = 7000
+
+[ssh]
+type = tcp
+local_ip = 127.0.0.1
+local_port = 22
+remote_port = 6022
+
+[web]
+type = http
+local_port = 8123
+custom_domains = xx.xx.xx.xx  # IP or URL
+
+# run 
+nohup frpc -c frpc.ini &
+```
+
+### SSL  
+
+### Replace Database 
+http://cxlwill.cn/Home-Assistant/HomeAssistant-PostgreSQL/ 
+
+## configuration.yaml 
+I forked cxlwill's HA-config: https://github.com/cxlwill/HA_config  
+https://github.com/cxlwill/HA_config  
 
 
 ## Upgrade
