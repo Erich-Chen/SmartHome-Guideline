@@ -7,7 +7,7 @@ Set up a smart home system including homeassistant and homebridge,  based on Ubu
 ** Network Adaptor: Bridged  
 ** hostname: smarthome  
 ** username: smarthome  
-* 中国国内用户最好自备稳定的全局VPN，我没有对中国的网络环境做个别优化。  
+* 中国国内用户最好自备稳定的全局VPN，我没有对中国的网络环境做个别优化。  
 * 认真推荐墨澜的系列文章，写得非常好： https://sspai.com/post/38849 http://cxlwill.cn/ 
 
 ```
@@ -17,11 +17,7 @@ sudo apt install -y openssh-server vim curl
 # Create a new sudo user "smarthome"
 sudo adduser smarthome
 sudo usermod -aG sudo smarthome
-exit
-```
-###NOTE: You will Exit and login again as user 'smarthome'  
 
-```
 # Change Timezone
 sudo timedatectl set-timezone "Asia/Shanghai"
 
@@ -31,26 +27,33 @@ sudo sed -i "s/127.0.1.1.*/127.0.1.1\tsmarthome/g" /etc/hosts
 # Reboot to take effect
 sudo reboot
 ```
+NOTE: login as user 'smarthome' from now on.   
 
 ## Install homeassistant (easy way, NOT virtualenv)
-* 虚拟机代价很低，专VM专用，就不必使用virtualenv来隔离生产环境了
+ 
 ```
-sudo apt install -y python3 python3-pip python3-venv
+sudo apt install -y python3 python3-pip 
 sudo pip3 install --upgrade pip
 sudo pip3 install homeassistant
 
-## if you prefer virtualenv:
-# python3 -m venv homeassistant
-# cd homeassistant
-# source bin/activate
-# pip install --upgrade pip
+## if you prefer virtualenv: 
+# sudo apt install -y python3-venv
+# python3 -m venv homeassistant && cd homeassistant && source bin/activate
+# python3 -m pip install --upgrade pip
 # python3 -m pip install homeassistant
 
 # Test Run
 hass --version
-echo You will access via "http://$(echo $(hostname -I))::8123" on another computer with GUI under the same LAN. 
-echo Press Ctrl+C, maybe two or three times, to terminal the task and get back for further confirguration. 
+
+# run home assistant
 hass
+
+# solve missing of 'sqlalchemy' for HA v0.62.1
+sudo pip3 install sqlalchemy
+
+echo You will access via "http://$(echo $(hostname -I))::8123" on another computer with GUI under the same LAN. 
+
+echo Press Ctrl+C, maybe two or three times, to terminal the task and get back for further confirguration. 
 
 # Autostart home-assistant Using Systemd
 cat << EOL | sudo tee /etc/systemd/system/home-assistant@smarthome.service
@@ -92,7 +95,7 @@ sudo apt install -y libavahi-compat-libdnssd-dev
 sudo npm install -g --unsafe-perm homebridge hap-nodejs node-gyp
 
 cd /usr/lib/node_modules/homebridge/
-# If "No such directory" error, use below: 
+# If "No such directory" error, use below path instead: 
 # cd /usr/local/lib/node_modules/homebridge/
 
 sudo npm install --unsafe-perm bignum
@@ -128,7 +131,7 @@ cat << EOL | sudo tee ~/.homebridge/config.json
       "name": "HomeAssistant",
       "host": "http://127.0.0.1:8123",
       "password": "",
-      "supported_types": ["fan", "garage_door", "input_boolean", "light", "lock", "media_player", "rollershutter", "scene", "switch"],
+      "supported_types": ["automation", "binary_sensor", "climate", "cover", "device_tracker", "fan", "group", "input_boolean", "light", "lock", "media_player", "remote", "scene", "script", "sensor", "switch", "vacuum"],
       "logging": false,
       "verify_ssl": false
     }
@@ -140,7 +143,7 @@ cat << EOL | sudo tee ~/.homebridge/config.json
 
 EOL
 
-# Fixing NPM permission
+# Fixes NPM permission folowwing error info
 sudo chown -R $USER:$(id -gn $USER) /home/smarthome/.config
 
 # Test Run, use CTRL+C to terminal
@@ -168,98 +171,6 @@ sudo systemctl --system daemon-reload
 sudo systemctl enable homebridge@smarthome
 ```
 
-## AppDaemon (Dashboard)
-```
-sudo pip3 install appdaemon
-mkdir ~/conf
-touch ~/conf/appdaemon.yaml
-
-cat << EOL | sudo tee /home/smarthome/conf/appdaemon.yaml
-AppDaemon:
-  logfile: STDOUT
-  errorfile: STDERR
-  threads: 10
-  cert_verify: False
-  
-HASS:
-  ha_url: http://127.0.0.1:8123
-  ha_key: 
-
-HADashboard:
-  dash_url: http://127.0.0.1:5050
-  dash_force_compile: 1
-
-# Apps
-hello_world:
-  module: hello
-  class: HelloWorld
-
-EOL
-
-mkdir /home/smarthome/conf/apps/
-
-cat << EOL | sudo tee /home/smarthome/conf/apps/hello.py
-import appdaemon.appapi as appapi
-
-#
-# Hello World App
-#
-# Args:
-#
-
-class HelloWorld(appapi.AppDaemon):
-
-  def initialize(self):
-     self.log("Hello from AppDaemon")
-     self.log("You are now ready to run Apps!")
-
-EOL
-
-mkdir /home/smarthome/conf/dashboards/
-
-cat << EOL | sudo tee /home/smarthome/conf/dashboards/Hello.dash
-#
-# Main arguments, all optional
-#
-title: Hello Panel
-widget_dimensions: [120, 120]
-widget_margins: [5, 5]
-columns: 8
-
-label:
-    widget_type: label
-    text: Hello World
-
-layout:
-    - label(2x2)
-EOL
-
-
-# Test Run
-appdaemon -c ~/conf
-
-
-# Autostart AppDaemon Using Systemd
-
-cat << EOL | sudo tee /etc/systemd/system/appdaemon@smarthome.service
-[Unit]
-Description=AppDaemon
-After=home-assistant@smarthome.service
-
-[Service]
-Type=simple
-User=%i
-ExecStart=$(which appdaemon) -c /home/smarthome/conf
-
-[Install]
-WantedBy=multi-user.target
-
-EOL
-
-sudo systemctl --system daemon-reload
-sudo systemctl enable appdaemon@smarthome
-```
-
 ## Reboot to Test Autostart
 ```
 sudo reboot
@@ -269,11 +180,12 @@ sudo ps -ef | grep homebridge@smarthome
 ```
 
 ## Others
-### Set up api password for homeassistant
+### Set an api password for homeassistant
 ```
 # there are 4 files to edit to set up api_password for homeassistant. 
-## 1. touch /home/smarthome/.homeassistant/secrets.yaml   # secrects is plural
-api_password: SOME_PASSWORD
+## 1. creates 'secrects.yaml'
+vim /home/smarthome/.homeassistant/secrets.yaml   # secrects is plural
+# api_password: SOME_PASSWORD
 ## 2. /home/smarthome/.homeassistant/configration.yaml
 http:
   api_password: !secret api_password
@@ -334,9 +246,10 @@ pg_config --version
 sudo -u postgres createuser smarthome
 sudo -u postgres createdb -O smarthome homeassistant
 
-cd homeassistant/
-source bin/activate
 pip3 install psycopg2
+## virtualenv:
+# cd ~/homeassistant/ && source bin/activate
+# pip3 install psycopg2
 
 vim ~/.homeassistant/configuration.yaml
 ## add below content
@@ -344,8 +257,48 @@ vim ~/.homeassistant/configuration.yaml
 #   db_url: postgres://@/homeassistant
 ```
 
+### MagicMirror  
+ref. https://github.com/MichMich/MagicMirror  
+```
+cd ~
+git clone https://github.com/MichMich/MagicMirror
+cd ~/MagicMirror
+npm install
+node serveronly
+
+# edit whitelist
+cp ~/MagicMirror/config/config.js.sample ~/MagicMirror/config/config.js
+sudo vim ~/MagicMirror/config/config.js
+# address: "0.0.0.0",
+# ipWhitelist: [],
+
+# install 
+
+# autostart using systemd
+cat << EOL | sudo tee /etc/systemd/system/magicmirror@smarthome.service
+[Unit]
+Description=Magic Mirror
+After=network-online.service
+
+[Service]
+Environment=NODE_PORT=8080
+Type=simple
+User=%i
+WorkingDirectory=/home/smarthome/MagicMirror/
+ExecStart=/usr/bin/node serveronly/
+
+[Install]
+WantedBy=multi-user.target
+
+EOL
+
+sudo systemctl --system daemon-reload
+sudo systemctl enable magicmirror@smarthome
+```
+
 ## configuration.yaml 
-I forked cxlwill's HA-config: https://github.com/cxlwill/HA_config  
+I forked cxlwill's HA-config:   
+https://github.com/cxlwill/HA_config    
 https://github.com/cxlwill/HA_config  
 
 
@@ -355,7 +308,8 @@ https://github.com/cxlwill/HA_config
 sudo apt update && sudo apt upgrade -yy
 
 # homeassistant upgrade
-sudo pip3 install --upgrade homeassistant
+cd ~/homeassistant && source bin/activate
+python3 -m pip install --upgrade homeassistant
 
 # Node/npm Update
 sudo npm cache clean -f
@@ -366,9 +320,9 @@ sudo npm install -g npm
 # Homebridge Update
 sudo npm update -g homebridge
 
-# AppDaemon Update
-sudo pip3 install --upgrade appdaemon
-
+# Magic Mirror Update
+cd ~/MagicMirror
+git pull && npm install
 ```  
 
 ## Configuration Update
