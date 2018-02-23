@@ -197,7 +197,8 @@ http:
     ha_key: "yourPassword"
 ```
 
-### FRP- Fast Reverse Proxy  
+~~### FRP- Fast Reverse Proxy (discarded)~~  
+Refer to HTTPS.md  
 https://github.com/fatedier/frp/blob/master/README_zh.md 
 * Server 
 ```
