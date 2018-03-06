@@ -85,7 +85,9 @@ sudo pip3 install paho-mqtt    # was: python-mosquitto
 sudo systemctl start mosquitto
 ```
 
-## Install homebridge
+## ~~Install homebridge~~ (HA supports HomeKit from 0.64) 
+HA support HomeKit from version 0.64  
+https://home-assistant.io/components/homekit/  
 ```
 sudo apt install -y git make g++ curl
 sudo apt install -y python
