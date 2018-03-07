@@ -264,6 +264,10 @@ vim ~/.homeassistant/configuration.yaml
 ref. https://github.com/MichMich/MagicMirror  
 ```
 cd ~
+
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt install -y nodejs
+
 git clone https://github.com/MichMich/MagicMirror
 cd ~/MagicMirror
 npm install
