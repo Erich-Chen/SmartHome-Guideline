@@ -34,12 +34,14 @@ NOTE: login as user 'smarthome' from now on.
 ```
 sudo apt install -y python3 python3-pip 
 sudo pip3 install --upgrade pip
+sudo python3 -m pip install wheel
 sudo pip3 install homeassistant
 
 ## if you prefer virtualenv: 
 # sudo apt install -y python3-venv
-# python3 -m venv homeassistant && cd homeassistant && source bin/activate
+# python3 -m venv hass_venv && cd hass_venv && source bin/activate
 # python3 -m pip install --upgrade pip
+# python3 -m pip install wheel
 # python3 -m pip install homeassistant
 
 # Test Run
@@ -56,7 +58,7 @@ echo You will access via "http://$(echo $(hostname -I))::8123" on another comput
 echo Press Ctrl+C, maybe two or three times, to terminal the task and get back for further confirguration. 
 
 # Autostart home-assistant Using Systemd
-cat << EOL | sudo tee /etc/systemd/system/home-assistant@smarthome.service
+cat << EOL | sudo tee /etc/systemd/system/hass.service
 [Unit]
 Description=Home Assistant
 After=network-online.target
@@ -64,9 +66,9 @@ After=network-online.target
 [Service]
 Type=simple
 User=%i
-ExecStart=$(which hass)
+# ExecStart=$(which hass)
 ## for virtualenv:
-# ExecStart=$(which hass) -c "/home/smarthome/.homeassistant"
+ExecStart=$(which hass) -c "/home/smarthome/.homeassistant"
 
 [Install]
 WantedBy=multi-user.target
