@@ -21,8 +21,8 @@ ssh -NR 0.0.0.0:8123:127.0.0.1:8123 root@45.32.xx.xx
 on Client (HA server)
 ```
 # Generate SSH key to login without asking for password
-ssh-keygen -t rsa -P ''
-ssh-copy-id -i ~/.ssh/id_rsa.pub root@45.32.xx.xx
+ssh-keygen -o -a 100 -t ed25519 -P ''
+ssh-copy-id -i ~/.ssh/id_ed25519.pub root@45.32.xx.xx
 
 # With `autossh` to keep SSH tunnel always alive
 sudo apt install -y autossh
