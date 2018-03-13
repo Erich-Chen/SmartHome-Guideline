@@ -29,14 +29,14 @@ sudo apt install -y autossh
 
 cat << EOL | sudo tee /etc/systemd/system/autossh@smarthome.service
 [Unit]
-Description=Keeps a SSH tunnel to my vultr server '45.32.74.141' open and alive
+Description=Keeps a SSH tunnel to my vultr server open and alive
 After=network-online.target
 
 [Service]
 Type=simple
 User=%i
 ExecStart=/usr/bin/autossh \\
-                -i "/home/smarthome/.ssh/id_rsa" \\
+                -i "/home/smarthome/.ssh/id_ed25519 " \\
                 -M 0 -N -q \\
                 -o "ServerAliveInterval 60" \\
                 -o "ServerAliveCountMax 3" \\
