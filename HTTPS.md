@@ -12,7 +12,7 @@ sudo systemctl restart sshd.service
 
 on Client (HA server) - Quick Test
 ```
-ssh -NR 0.0.0.0:8123:127.0.0.1:8123 root@45.32.xx.xx
+ssh -NR 0.0.0.0:8123:127.0.0.1:8123 root@45.32.xx.xx &
 ## -R a:p1:b:p2的含义：
 ## 打开服务器上的p1端口，向a开放（a为0.0.0.0或*代表所有网络，a为127.0.0.1代表本机），
 ## 这个端口上的所有网络流量会通过ssh隧道转发到客户端，并由客户端转发到b地址的p2端口。
@@ -24,7 +24,7 @@ on Client (HA server)
 ssh-keygen -o -a 100 -t ed25519 -P ''
 ssh-copy-id -i ~/.ssh/id_ed25519.pub root@45.32.xx.xx
 
-# With `autossh` to keep SSH tunnel always alive
+# Install `autossh` to keep SSH tunnel always alive
 sudo apt install -y autossh
 
 cat << EOL | sudo tee /etc/systemd/system/autossh@smarthome.service
@@ -34,9 +34,8 @@ After=network-online.target
 
 [Service]
 Type=simple
-User=%i
 ExecStart=/usr/bin/autossh \\
-                -i "/home/smarthome/.ssh/id_ed25519 " \\
+                -i "/home/smarthome/.ssh/id_ed25519" \\
                 -M 0 -N -q \\
                 -o "ServerAliveInterval 60" \\
                 -o "ServerAliveCountMax 3" \\
