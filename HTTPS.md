@@ -39,14 +39,11 @@ ExecStart=/usr/bin/autossh \\
                 -M 0 -N -q \\
                 -o "ServerAliveInterval 60" \\
                 -o "ServerAliveCountMax 3" \\
-                -R 0.0.0.0:80:127.0.0.1:80 \\
-                -R 0.0.0.0:443:127.0.0.1:8123 \\
                 -R 0.0.0.0:8080:127.0.0.1:8080 \\
-                root@45.32.74.141
+                root@45.32.xx.xx
 # -M 0 --> no monitoring
 # -N Just open the connection and do nothing (not interactive)
 # -R IPs_Allowed:Port_on_RemoteServer:LocalHost:Local_Port
-# forward port 80 for letsenrypt certbot; port 443 for https access of home assistant; 8080 for http access of MagicMirror
 # must use root user on remote server to allow well-known ports (80/443/etc.) forwarding
 
 [Install]
